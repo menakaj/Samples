@@ -1,0 +1,24 @@
+
+rsquid:S1488"]Immediately return this expression instead of assigning it to the temporary variable "added".(œ–±ö
+ssquid:S1488"_Immediately return this expression instead of assigning it to the temporary variable "zipFile".(Ï®Õ$
+Psquid:S2696"6Make the enclosing method "static" or remove this set.( Ó£˜øÿÿÿÿ
+Bsquid:S1481"-Remove this unused "deviceId" local variable.(Ñ•ê¶
+ squid:S1598"ŠThis file "DeviceTypeServiceImpl.java" should be located in "org/wso2/iot/sample/alexaconnector/alexaConnector/api" directory, not in "/home/lasantha/IOTS_HOME/samples/alexaConnector/component/api/src/main/java/org.wso2.iot.sample.alexaconnector/alexaConnector/api".(ðè›Î
+:squid:S1166"%Either log or rethrow this exception.(¤á»è
+?squid:S1166"%Either log or rethrow this exception.(«žÇÕúÿÿÿÿ
+Qsquid:S1854"<Remove this useless assignment to local variable "deviceId".(Ñ•ê¶
+Zsquid:S2147"ECombine this catch with the one at line 231, which has the same body.(›–µö
+_squid:S2147"ECombine this catch with the one at line 231, which has the same body.(ËÓðÂûÿÿÿÿ
+Zsquid:S2147"ECombine this catch with the one at line 231, which has the same body.(Ãôþ•
+_squid:S2147"ECombine this catch with the one at line 231, which has the same body.(Âœ»Ñÿÿÿÿÿ
+msquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(ðè›Î
+Esquid:UselessImportCheck"Remove this duplicated import.(ÅÁöúüÿÿÿÿ
+Vsquid:UselessImportCheck"/Remove this unused import 'javax.ws.rs.DELETE'.(×ï‘«üÿÿÿÿ
+jsquid:UselessImportCheck"CRemove this unused import 'java.util.concurrent.ConcurrentHashMap'.(ÓŠÓøúÿÿÿÿ
+squid:UselessImportCheck"]Remove this unused import 'org.wso2.carbon.device.mgt.common.group.mgt.DeviceGroupConstants'.(êýœ·
+Nsquid:UselessImportCheck",Remove this unused import 'javax.ws.rs.PUT'.(¦Ö±–
+O
+squid:S899";Do something with the "boolean" value returned by "delete".(Ä…¿¿
+Tsquid:S1161":Add the "@Override" annotation above this method signature(¯êæüúÿÿÿÿ
+Tsquid:S1161":Add the "@Override" annotation above this method signature(ìùÞùÿÿÿÿ
+Tsquid:S1161":Add the "@Override" annotation above this method signature(¨àÍŒýÿÿÿÿ

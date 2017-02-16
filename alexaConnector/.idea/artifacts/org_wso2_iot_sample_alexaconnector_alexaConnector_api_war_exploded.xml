@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="org.wso2.iot.sample.alexaconnector.alexaConnector.api:war exploded">
+    <output-path>$PROJECT_DIR$/component/api/target/org.wso2.iot.sample.alexaconnector.alexaConnector.api-1.0.0</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="org.wso2.iot.sample.alexaconnector.alexaConnector.api" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-jaxrs:1.9.0" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.0" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/component/api/target/org.wso2.iot.sample.alexaconnector.alexaConnector.api-1.0.0/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="org.wso2.iot.sample.alexaconnector.alexaConnector.api/web/Web" />
+    </root>
+  </artifact>
+</component>

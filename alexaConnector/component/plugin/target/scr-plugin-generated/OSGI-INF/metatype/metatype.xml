@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0" localization="OSGI-INF/metatype/metatype">
+    <OCD id="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent" name="%org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent.name" description="%org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent.description"/>
+    <Designate pid="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent">
+        <Object ocdref="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent"/>
+    </Designate>
+</metatype:MetaData>

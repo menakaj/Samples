@@ -1,0 +1,6 @@
+
+7squid:S1214""Move constants to a class or enum.(µÊ•þ
+œsquid:S1598"†This file "DeviceTypeService.java" should be located in "org/wso2/iot/sample/alexaconnector/alexaConnector/api" directory, not in "/home/lasantha/IOTS_HOME/samples/alexaConnector/component/api/src/main/java/org.wso2.iot.sample.alexaconnector/alexaConnector/api".(ðè›Î
+msquid:S00120"WRename this package name to match the regular expression '^[a-z]+(\.[a-z][a-z0-9]*)*$'.(ðè›Î
+Nsquid:UselessImportCheck",Remove this unused import 'javax.ws.rs.PUT'.(¦Ö±–
+Vsquid:UselessImportCheck"/Remove this unused import 'javax.ws.rs.DELETE'.(×ï‘«üÿÿÿÿ

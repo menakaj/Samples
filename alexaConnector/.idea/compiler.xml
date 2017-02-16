@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.api" />
+        <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="alexaConnector" target="1.7" />
+      <module name="alexaConnector-component" target="1.7" />
+      <module name="alexaConnector-feature" target="1.7" />
+      <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.analytics" target="1.7" />
+      <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.api" target="1.7" />
+      <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.feature" target="1.7" />
+      <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin" target="1.7" />
+      <module name="org.wso2.iot.sample.alexaconnector.alexaConnector.ui" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
