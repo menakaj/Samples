@@ -2,7 +2,7 @@
 
 """
 /**
-* Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+* Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 * WSO2 Inc. licenses this file to you under the Apache License,
 * Version 2.0 (the "License"); you may not use this file except
@@ -21,73 +21,93 @@
 """
 
 import time
-import paho.mqtt.client as mqtt
 import iotUtils
+import paho.mqtt.client as mqtt
 
-global mqttClient
-mqttClient = mqtt.Client()
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#       The callback for when the client receives a CONNACK response from the server.
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def on_connect(mqttClient, userdata, flags, rc):
+
+# The callback for when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, rc):
     print("MQTT_LISTENER: Connected with result code " + str(rc))
+
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     print ("MQTT_LISTENER: Subscribing with topic " + TOPIC_TO_SUBSCRIBE)
-    mqttClient.subscribe(TOPIC_TO_SUBSCRIBE)
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    client.subscribe(TOPIC_TO_SUBSCRIBE)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#       The callback for when a PUBLISH message is received from the server.
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def on_message(mqttClient, userdata, msg):
-    print( "MQTT_LISTENER: " + msg.topic + " " + str(msg.payload))
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+    print 'MQTT_LISTENER: Message Received by Device'
+    print("MQTT_LISTENER: " + msg.topic + " --> " + str(msg.payload))
+
+    request = str(msg.payload)
+
+    resource = request.split(":")[0].upper()
+    state = request.split(":")[1].upper()
+
+    print "MQTT_LISTENER: Resource- " + resource
+
+
+def on_publish(client, userdata, mid):
+    print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
+    print 'Alexa Connector Data Published Succesfully'
+    # print (client)
+    # print (userdata)
+    # print (mid)
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #       The callback for when a PUBLISH message to the server when door is open or close
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def on_publish(mqttClient, stream1PlayLoad, stream2PlayLoad):
-    mqttClient.publish(TOPIC_TO_PUBLISH_STREAM1, stream1PlayLoad)
-    mqttClient.publish(TOPIC_TO_PUBLISH_STREAM2, stream2PlayLoad)
+def publish(msg):
+    #   global mqttClient
 
-def sendSensorValue(stream1PlayLoad, stream2PlayLoad):
-    global mqttClient
-    on_publish(mqttClient,stream1PlayLoad, stream2PlayLoad)
+    print "Publish triggered...."
+    # topic = "carbon.super/virtual_firealarm/qy4ep9u9801k"
+    mqttClient.publish(TOPIC_TO_PUBLISH_ALEXA, msg)
+
+    print "published to topic " + str(msg) + str(TOPIC_TO_PUBLISH_ALEXA)
+    # mqttClient.publish(topic, msg)
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-#  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #       The Main method of the server script
-#			This method is invoked from Agent.py on a new thread
+#           This method is invoked from RaspberryStats.py on a new thread
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 def main():
-
     MQTT_ENDPOINT = iotUtils.MQTT_EP.split(":")
-    MQTT_IP = MQTT_ENDPOINT[1].replace('//','')
+    MQTT_IP = MQTT_ENDPOINT[1].replace('//', '')
     MQTT_PORT = int(MQTT_ENDPOINT[2])
 
-    DEV_OWNER = iotUtils.DEVICE_OWNER
+    SERVER_NAME = iotUtils.SERVER_NAME
     DEV_ID = iotUtils.DEVICE_ID
-    DEV_TYPE =iotUtils.DEVICE_TYPE
-    TANENT_DOMAIN = iotUtils.SERVER_NAME
+
     global TOPIC_TO_SUBSCRIBE
-    TOPIC_TO_SUBSCRIBE = TANENT_DOMAIN + "/" + DEV_TYPE + "/" + DEV_ID + "/command"
-    global TOPIC_TO_PUBLISH_STREAM1
-    TOPIC_TO_PUBLISH_STREAM1 = TANENT_DOMAIN + "/" + DEV_TYPE + "/" + DEV_ID + "/alexa"
-    global TOPIC_TO_PUBLISH_STREAM2
-    TOPIC_TO_PUBLISH_STREAM2 = TANENT_DOMAIN + "/" + DEV_TYPE + "/" + DEV_ID + "/alexa1"
+    TOPIC_TO_SUBSCRIBE = SERVER_NAME + "/raspberrypi/+"
+
+    global TOPIC_TO_PUBLISH_ALEXA
+    TOPIC_TO_PUBLISH_ALEXA = SERVER_NAME + "/raspberrypi/alexa"
 
     print ("MQTT_LISTENER: MQTT_ENDPOINT is " + str(MQTT_ENDPOINT))
     print ("MQTT_LISTENER: MQTT_TOPIC is " + TOPIC_TO_SUBSCRIBE)
+
     global mqttClient
-    mqttClient.username_pw_set(iotUtils.AUTH_TOKEN, password = "")
+    mqttClient = mqtt.Client()
     mqttClient.on_connect = on_connect
     mqttClient.on_message = on_message
+    mqttClient.on_publish = on_publish
+    mqttClient.username_pw_set(iotUtils.AUTH_TOKEN, password="")
 
     while True:
         try:
-            mqttClient.connect(MQTT_IP, MQTT_PORT, 60)
+            mqttClient.connect(MQTT_IP, MQTT_PORT, 180)
             print "MQTT_LISTENER: " + time.asctime(), "Connected to MQTT Broker - %s:%s" % (MQTT_IP, MQTT_PORT)
+
+            # Blocking call that processes network traffic, dispatches callbacks and
+            # handles reconnecting.
+            # Other loop*() functions are available that give a threaded interface and a
+            # manual interface.
             mqttClient.loop_forever()
 
         except (KeyboardInterrupt, Exception) as e:
@@ -99,6 +119,8 @@ def main():
             print '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
             pass
 
+
 if __name__ == '__main__':
     main()
 
+# SERVER_NAME + "/raspberrypi/" + DEV_ID

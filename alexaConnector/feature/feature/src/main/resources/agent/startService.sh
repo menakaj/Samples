@@ -61,8 +61,9 @@ else
 fi
 #done
 cp deviceConfig.properties ./src
-chmod +x ./src/agent.py
-./src/agent.py -i $input
+cd ./src
+chmod +x AlexaAgent.py
+./AlexaAgent.py
 
 if [ $? -ne 0 ]; then
 	echo "Could not start the service..."

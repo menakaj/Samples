@@ -2,7 +2,7 @@
 
 """
 /**
-* Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+* Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 * WSO2 Inc. licenses this file to you under the Apache License,
 * Version 2.0 (the "License"); you may not use this file except
@@ -20,9 +20,29 @@
 **/
 """
 
-import ConfigParser
-import os
+import time
+import ConfigParser, os
 import random
+import running_mode
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#           HOST_NAME(IP) of the Device
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+global HOST_NAME
+HOST_NAME = "0.0.0.0"
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HTTP_SERVER_PORT = 5678 # http server port which is listning on
+
+global LAST_TEMP
+LAST_TEMP = 25  # The Last read temperature value from the DHT sensor. Kept globally
+# Updated by the temperature reading thread
+# Associate pin 23 to TRIG
+TEMPERATURE_READING_INTERVAL_REAL_MODE = 3
+TEMPERATURE_READING_INTERVAL_VIRTUAL_MODE = 60
+TEMP_PIN = 4
+TEMP_SENSOR_TYPE = 11
+BULB_PIN = 11  # The GPIO Pin# in RPi to which the LED is connected
+global GPIO
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #       Device specific info when pushing data to server
@@ -32,40 +52,42 @@ configParser = ConfigParser.RawConfigParser()
 configFilePath = os.path.join(os.path.dirname(__file__), './deviceConfig.properties')
 configParser.read(configFilePath)
 
+SERVER_NAME = configParser.get('Device-Configurations', 'server-name')
 DEVICE_OWNER = configParser.get('Device-Configurations', 'owner')
 DEVICE_ID = configParser.get('Device-Configurations', 'deviceId')
-DEVICE_NAME = configParser.get('Device-Configurations', 'device-name')
-DEVICE_TYPE = configParser.get('Device-Configurations', 'device-type')
-SERVER_NAME = configParser.get('Device-Configurations', 'server-name')
 MQTT_EP = configParser.get('Device-Configurations', 'mqtt-ep')
+# XMPP_EP = configParser.get('Device-Configurations', 'xmpp-ep')
 AUTH_TOKEN = configParser.get('Device-Configurations', 'auth-token')
 CONTROLLER_CONTEXT = configParser.get('Device-Configurations', 'controller-context')
-DEVICE_INFO = '{"owner":"' + DEVICE_OWNER + '","deviceId":"' + DEVICE_ID + '",'
+# MQTT_SUB_TOPIC = configParser.get('Device-Configurations', 'mqtt-sub-topic').format(owner = DEVICE_OWNER, deviceId = DEVICE_ID)
+# MQTT_PUB_TOPIC = configParser.get('Device-Configurations', 'mqtt-pub-topic').format(owner = DEVICE_OWNER, deviceId = DEVICE_ID)
+DEVICE_INFO = '{{"event":{{"metaData":{{"owner":"' + DEVICE_OWNER + '","type":"raspberrypi","deviceId":"' + DEVICE_ID + '","time":{}}},"payloadData":{{"temperature":{:.2f}}}}}}}'
+BRAIN_WAVE_INFO = '{{"event":{{"metaData":{{"owner":"' + DEVICE_OWNER + '","type":"raspberrypi","deviceId":"' + DEVICE_ID \
+                  + '","time":{}}},"payloadData":{{"poorSignalLevel":{:.0f},"meditationLevel":{:.0f},"attentionLevel":{:.0f}, ' \
+                    '"EEGPowersDelta":{:.0f},"EEGPowersTheta":{:.0f},"EEGPowersLowAlpha":{:.0f},' \
+                    '"EEGPowersHighAlpha":{:.0f}, "EEGPowersLowBeta":{:.0f}, "EEGPowersHighBeta":{:.0f}, "EEGPowersLowGamma":{:.0f}, , "EEGPowersMidGamma":{:.0f}}}}}}}'
 HTTPS_EP = configParser.get('Device-Configurations', 'https-ep')
-DEVICE_DATA = '"sensorValue":"{sensorValue}"'
-SENSOR_STATS_SENSOR1 = '{{"event":{{"metaData":{{"owner":"' + DEVICE_OWNER + '","deviceType":"' + DEVICE_TYPE \
-                       + '","deviceId":"' + DEVICE_ID + '","time":{}}},"payloadData":{{"alexa":{:.2f}}}}}}}'
-SENSOR_STATS_SENSOR2 = '{{"event":{{"metaData":{{"owner":"' + DEVICE_OWNER + '","deviceType":"' + DEVICE_TYPE \
-                       + '","deviceId":"' + DEVICE_ID + '","time":{}}},"payloadData":{{"alexa1":{:.2f}}}}}}}'
+# HTTP_EP = configParser.get('Device-Configurations', 'http-ep')
+# APIM_EP = configParser.get('Device-Configurations', 'apim-ep')
+# DEVICE_IP = '"{ip}","value":'
+# DEVICE_DATA = '"{temperature}"'  # '"{temperature}:{load}:OFF"'
+
+
+# {"event": {"metaData": {"owner": "admin", "type": "arduino","deviceId": "s15kdwf34vue","time": 0},"payloadData": { "temperature": 22} }}
 
 
 
-global IS_REGISTERED
-IS_REGISTERED = True
+### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
-def isEmpty(string):
-    if string and string.strip():
-        # string is not None AND string is not empty or blank
-        return False
-    # string is None OR string is empty or blank
-    return True
+def main():
+    global HOST_NAME
+    # HOST_NAME = getDeviceIP()
+    if running_mode.RUNNING_MODE == 'N':
+        print("mode N")
+        # setUpGPIOPins()
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-#       This method generate a random sensor value between 15 and 40
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-def generateRandomSensorValues():
-    return random.randint(15, 40)
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+if __name__ == '__main__':
+    main()
