@@ -33,5 +33,3 @@ class debounce_handler(object):
 
         self.lastEcho = time.time()
         return False
-
-

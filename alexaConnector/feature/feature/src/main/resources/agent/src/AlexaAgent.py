@@ -19,10 +19,10 @@
 **/
 """
 
-import logging, logging.handlers
-import sys, os, signal, argparse
+import logging.handlers
+import sys,signal, argparse
 
-import time, threading, datetime, calendar
+import threading,calendar
 
 import logging
 import time
@@ -30,7 +30,7 @@ import time
 import fauxmo
 from debounce_handler import debounce_handler
 
-import httplib, ssl
+import ssl
 from functools import wraps
 
 iotUtils = __import__('iotUtils')
@@ -181,7 +181,7 @@ class device_handler(debounce_handler):
     """Publishes the on/off state requested,
        and the IP address of the Echo making the request.
     """
-    TRIGGERS = [{"Alexa Bridge": 52000},{"virtual firealarm": 52001},{"arduino": 52002}]
+    TRIGGERS = [{"light": 52000},{"buzzer": 52001},{"arduino": 52002}]
 
     def sslwrap(func):
         @wraps(func)
@@ -192,22 +192,28 @@ class device_handler(debounce_handler):
 
     def act(self, client_address, state, name):
 
-        # print "State", state, "on ", name, "from client @", client_address
         try:
 
-            if state == True and name == "Alexa Bridge":
-                logging.info("Alexa Bridge turned on successfully")
-            elif state == True and name == "virtual firealarm":
-                mqttConnector.publish("on")
-                logging.info("Virtual Fire Alarm turned on successfully")
-            elif state == True and name == "arduino":
-                logging.info("Arduino turned on successfully")
-            elif state == False and name == "Alexa Bridge":
-                logging.info("Alexa Bridge Alarm turned on successfully")
-            elif state == False and name == "virtual firealarm":
-                logging.info("Virtual Fire Alarm turned on successfully")
-            elif state == False and name == "arduino":
-                logging.info("Arduino turned on successfully")
+            if state == True and name == "light":
+                #MQTT msg send to broker
+                mqttConnector.publish("BULB:ON")
+                logging.info("Light turned on successfully")
+
+            elif state == True and name == "buzzer":
+                # MQTT msg send to broker
+                mqttConnector.publish("BUZZER:ON")
+                logging.info("BUZZER turned on successfully")
+
+            elif state == False and name == "light":
+                # MQTT msg send to broker
+                mqttConnector.publish("BULB:OFF")
+                logging.info("Light turned off successfully")
+
+            elif state == False and name == "buzzer":
+                # MQTT msg send to broker
+                mqttConnector.publish("BUZZER:OFF")
+                logging.info("BUUZZER turned on successfully")
+
             return True
         except Exception, e:
             logging.critical("Critical exception: " + str(e))

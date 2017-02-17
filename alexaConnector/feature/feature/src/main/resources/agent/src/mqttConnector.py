@@ -21,18 +21,21 @@
 """
 
 import time
+
 import iotUtils
 import paho.mqtt.client as mqtt
 
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
-    print("MQTT_LISTENER: Connected with result code " + str(rc))
-
+    if(rc == 4):
+        print "Device Unable to connect Broker"
+    elif rc == 0:
+        print "Device connected with Broker"
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    print ("MQTT_LISTENER: Subscribing with topic " + TOPIC_TO_SUBSCRIBE)
-    client.subscribe(TOPIC_TO_SUBSCRIBE)
+    #print ("MQTT_LISTENER: Subscribing with topic " + TOPIC_TO_SUBSCRIBE)
+    # client.subscribe(TOPIC_TO_SUBSCRIBE)
 
 
 # The callback for when a PUBLISH message is received from the server.
@@ -56,7 +59,6 @@ def on_publish(client, userdata, mid):
     # print (userdata)
     # print (mid)
 
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #       The callback for when a PUBLISH message to the server when door is open or close
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,12 +66,8 @@ def publish(msg):
     #   global mqttClient
 
     print "Publish triggered...."
-    # topic = "carbon.super/virtual_firealarm/qy4ep9u9801k"
-    mqttClient.publish(TOPIC_TO_PUBLISH_ALEXA, msg)
-
-    print "published to topic " + str(msg) + str(TOPIC_TO_PUBLISH_ALEXA)
-    # mqttClient.publish(topic, msg)
-
+    mqttClient.publish(TOPIC_TO_PUBLISH_BRAIN_WAVE_INFO, msg)
+    print "published to topic " + str(msg) + str(TOPIC_TO_PUBLISH_BRAIN_WAVE_INFO)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #       The Main method of the server script
@@ -84,10 +82,10 @@ def main():
     DEV_ID = iotUtils.DEVICE_ID
 
     global TOPIC_TO_SUBSCRIBE
-    TOPIC_TO_SUBSCRIBE = SERVER_NAME + "/raspberrypi/+"
+    TOPIC_TO_SUBSCRIBE = SERVER_NAME + "/raspberrypi/alexa"
 
-    global TOPIC_TO_PUBLISH_ALEXA
-    TOPIC_TO_PUBLISH_ALEXA = SERVER_NAME + "/raspberrypi/alexa"
+    global TOPIC_TO_PUBLISH_BRAIN_WAVE_INFO
+    TOPIC_TO_PUBLISH_BRAIN_WAVE_INFO = SERVER_NAME + "/alexa/raspberrypi"
 
     print ("MQTT_LISTENER: MQTT_ENDPOINT is " + str(MQTT_ENDPOINT))
     print ("MQTT_LISTENER: MQTT_TOPIC is " + TOPIC_TO_SUBSCRIBE)
@@ -98,6 +96,7 @@ def main():
     mqttClient.on_message = on_message
     mqttClient.on_publish = on_publish
     mqttClient.username_pw_set(iotUtils.AUTH_TOKEN, password="")
+    # mqttClient.username_pw_set("admin", password="admin")
 
     while True:
         try:
@@ -122,5 +121,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# SERVER_NAME + "/raspberrypi/" + DEV_ID

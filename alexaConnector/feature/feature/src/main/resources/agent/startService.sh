@@ -44,21 +44,21 @@ for f in ./deviceConfig.properties; do
 done
 
 #install mqtt dependency
-git clone git://git.eclipse.org/gitroot/paho/org.eclipse.paho.mqtt.python.git
-cd org.eclipse.paho.mqtt.python
-sudo python setup.py install
+#git clone git://git.eclipse.org/gitroot/paho/org.eclipse.paho.mqtt.python.git
+#cd org.eclipse.paho.mqtt.python
+#sudo python setup.py install
 
 cd $currentDir
 
 #while true; do
-read -p "Whats the time-interval (in seconds) between successive Data-Pushes to the WSO2-DC (ex: '60' indicates 1 minute) > " input
-if [ $input -eq $input 2>/dev/null ]
-then
-   echo "Setting data-push interval to $input seconds."
-else
-   echo "Input needs to be an integer indicating the number seconds between successive data-pushes. 15 will be taken as default value"
-   $input=15
-fi
+#read -p "Whats the time-interval (in seconds) between successive Data-Pushes to the WSO2-DC (ex: '60' indicates 1 minute) > " input
+#if [ $input -eq $input 2>/dev/null ]
+#then
+#   echo "Setting data-push interval to $input seconds."
+#else
+#   echo "Input needs to be an integer indicating the number seconds between successive data-pushes. 15 will be taken as default value"
+#   $input=15
+#fi
 #done
 cp deviceConfig.properties ./src
 cd ./src

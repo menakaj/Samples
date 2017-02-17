@@ -2,7 +2,7 @@
 
 """
 /**
-* Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+* Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 * WSO2 Inc. licenses this file to you under the Apache License,
 * Version 2.0 (the "License"); you may not use this file except
@@ -59,8 +59,6 @@ MQTT_EP = configParser.get('Device-Configurations', 'mqtt-ep')
 # XMPP_EP = configParser.get('Device-Configurations', 'xmpp-ep')
 AUTH_TOKEN = configParser.get('Device-Configurations', 'auth-token')
 CONTROLLER_CONTEXT = configParser.get('Device-Configurations', 'controller-context')
-# MQTT_SUB_TOPIC = configParser.get('Device-Configurations', 'mqtt-sub-topic').format(owner = DEVICE_OWNER, deviceId = DEVICE_ID)
-# MQTT_PUB_TOPIC = configParser.get('Device-Configurations', 'mqtt-pub-topic').format(owner = DEVICE_OWNER, deviceId = DEVICE_ID)
 DEVICE_INFO = '{{"event":{{"metaData":{{"owner":"' + DEVICE_OWNER + '","type":"raspberrypi","deviceId":"' + DEVICE_ID + '","time":{}}},"payloadData":{{"temperature":{:.2f}}}}}}}'
 BRAIN_WAVE_INFO = '{{"event":{{"metaData":{{"owner":"' + DEVICE_OWNER + '","type":"raspberrypi","deviceId":"' + DEVICE_ID \
                   + '","time":{}}},"payloadData":{{"poorSignalLevel":{:.0f},"meditationLevel":{:.0f},"attentionLevel":{:.0f}, ' \
@@ -72,11 +70,6 @@ HTTPS_EP = configParser.get('Device-Configurations', 'https-ep')
 # DEVICE_IP = '"{ip}","value":'
 # DEVICE_DATA = '"{temperature}"'  # '"{temperature}:{load}:OFF"'
 
-
-# {"event": {"metaData": {"owner": "admin", "type": "arduino","deviceId": "s15kdwf34vue","time": 0},"payloadData": { "temperature": 22} }}
-
-
-
 ### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 def main():
@@ -84,8 +77,6 @@ def main():
     # HOST_NAME = getDeviceIP()
     if running_mode.RUNNING_MODE == 'N':
         print("mode N")
-        # setUpGPIOPins()
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
