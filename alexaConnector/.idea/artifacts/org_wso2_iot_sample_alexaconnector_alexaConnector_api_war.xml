@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="org.wso2.iot.sample.alexaconnector.alexaConnector.api:war">
-    <output-path>$PROJECT_DIR$/component/api/target</output-path>
-    <root id="archive" name="org.wso2.iot.sample.alexaconnector.alexaConnector.api.war">
-      <element id="artifact" artifact-name="org.wso2.iot.sample.alexaconnector.alexaConnector.api:war exploded" />
-    </root>
-  </artifact>
-</component>

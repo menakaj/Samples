@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.0.0">
-    <scr:component enabled="true" immediate="true" name="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent">
-        <implementation class="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent"/>
-        <property name="service.pid" value="org.wso2.iot.sample.alexaconnector.alexaConnector.plugin.internal.ServiceComponent" private="false"/>
-    </scr:component>
-</components>
